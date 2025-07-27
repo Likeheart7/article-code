@@ -1,4 +1,4 @@
-package com.chenx.reactive;
+package com.chenx.rxjava;
 
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Observable;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
-import static com.chenx.reactive.SubjectImpl.subjectMethod;
+import static com.chenx.rxjava.SubjectImpl.subjectMethod;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 

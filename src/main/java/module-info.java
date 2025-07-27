@@ -6,4 +6,5 @@ module com.chenx {
     requires clojure;
     requires io.reactivex.rxjava3;
     requires org.junit.jupiter.api;
+    requires reactor.core;
 }

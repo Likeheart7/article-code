@@ -1,4 +1,4 @@
-package com.chenx.reactive;
+package com.chenx.rxjava;
 
 import io.reactivex.rxjava3.core.Observable;
 
