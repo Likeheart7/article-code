@@ -1,13 +1,18 @@
 package com.chenx.reactive;
 
+import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.observables.ConnectableObservable;
+import io.reactivex.rxjava3.subjects.PublishSubject;
 
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
+import static com.chenx.reactive.SubjectImpl.subjectMethod;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
@@ -27,6 +32,7 @@ public class RxJavaIntro {
         connectableObservables();
         single();
         resourceManagement();
+        subjectMethod();
     }
 
 
@@ -181,5 +187,80 @@ public class RxJavaIntro {
             sb::append
         );
         assertEquals("MyResource", sb.toString());
+    }
+}
+class SubjectImpl {
+
+    static Integer subscriber1 = 0;
+    static Integer subscriber2 = 0;
+
+    public static Integer subjectMethod() {
+        System.out.println("=====>>> subjectMethod");
+        PublishSubject<Integer> subject = PublishSubject.create();
+
+        subject.subscribe(getFirstObserver());
+
+        subject.onNext(1);
+        subject.onNext(2);
+        subject.onNext(3);
+
+        subject.subscribe(getSecondObserver());
+
+        subject.onNext(4);
+        subject.onComplete();
+        return subscriber1 + subscriber2;
+    }
+
+
+    static Observer<Integer> getFirstObserver() {
+        return new Observer<Integer>() {
+
+            @Override
+            public void onSubscribe(@NonNull Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(Integer value) {
+                subscriber1 += value;
+                System.out.println("Subscriber1: " + value);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                System.out.println("error");
+            }
+
+            @Override
+            public void onComplete() {
+                System.out.println("Subscriber1 completed");
+            }
+        };
+    }
+
+    static Observer<Integer> getSecondObserver() {
+        return new Observer<Integer>() {
+
+            @Override
+            public void onSubscribe(@NonNull Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(Integer value) {
+                subscriber2 += value;
+                System.out.println("Subscriber2: " + value);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                System.out.println("error");
+            }
+
+            @Override
+            public void onComplete() {
+                System.out.println("Subscriber2 completed");
+            }
+        };
     }
 }
