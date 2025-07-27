@@ -5,8 +5,6 @@ import com.zaxxer.hikari.HikariDataSource;
 
 import java.sql.*;
 
-import java.sql.ResultSet;
-
 public class PostgresQuery {
     static final String sql = "select * from userinfo where id = ?";
     static final String url = "jdbc:postgresql://localhost:5432/mydb";
