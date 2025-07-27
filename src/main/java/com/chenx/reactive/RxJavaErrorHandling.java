@@ -1,7 +1,6 @@
 package com.chenx.reactive;
 
 import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.core.ObservableEmitter;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -10,9 +9,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class RxJavaErrorHandling {
     public static void main(String[] args) {
-//        doOnError();
-//        retryError();
-//        conditionRetry();
+        doOnError();
+        retryError();
+        conditionRetry();
         retryWhen();
     }
 
