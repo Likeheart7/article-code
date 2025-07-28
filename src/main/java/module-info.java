@@ -7,4 +7,5 @@ module com.chenx {
     requires io.reactivex.rxjava3;
     requires org.junit.jupiter.api;
     requires reactor.core;
+    requires reactor.test;
 }
