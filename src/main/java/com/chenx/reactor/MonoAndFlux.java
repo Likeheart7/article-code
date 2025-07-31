@@ -1,8 +1,17 @@
 package com.chenx.reactor;
 
+import io.reactivex.rxjava3.core.*;
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.FluxSink;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 import reactor.test.StepVerifier;
+
+import java.time.Duration;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 /*
 Mono和Flux都实现了Publisher，Mono表示0或1个元素，Flux表示一系列元素.
@@ -13,7 +22,21 @@ public class MonoAndFlux {
     public static void main(String[] args) {
 //        intro();
 //        mono();
-        flux();
+//        flux();
+//        fluxWithInterval();
+    }
+
+    private static void fluxWithInterval() {
+        System.out.println("=====>>> fluxWithInterval");
+        Flux.interval(Duration.ofMillis(0), Duration.ofMillis(200))
+            .take(10)
+            .subscribe(num -> System.out.println("Received: " + num));
+        // 默认底层是守护线程，等待其执行完毕
+        try {
+            TimeUnit.SECONDS.sleep(5);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     private static void flux() {
