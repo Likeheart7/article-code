@@ -6,6 +6,7 @@ import org.reactivestreams.Subscription;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.FluxSink;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Scheduler;
 import reactor.core.scheduler.Schedulers;
 import reactor.test.StepVerifier;
 
@@ -23,20 +24,17 @@ public class MonoAndFlux {
 //        intro();
 //        mono();
 //        flux();
-//        fluxWithInterval();
+        fluxWithInterval();
     }
 
     private static void fluxWithInterval() {
         System.out.println("=====>>> fluxWithInterval");
-        Flux.interval(Duration.ofMillis(0), Duration.ofMillis(200))
+        Scheduler scheduler = Schedulers.newSingle("print-thread");
+        Flux.interval(Duration.ofMillis(0), Duration.ofMillis(500), scheduler)
             .take(10)
-            .subscribe(num -> System.out.println("Received: " + num));
-        // 默认底层是守护线程，等待其执行完毕
-        try {
-            TimeUnit.SECONDS.sleep(5);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+            .doOnComplete(scheduler::dispose)
+//            .subscribeOn(Schedulers.newSingle("print-thread"))    //无效，被interval内部的强制parallel调度覆盖。
+            .subscribe(num -> System.out.println("[" + Thread.currentThread().getName() + "]Received: " + num));
     }
 
     private static void flux() {
